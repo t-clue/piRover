@@ -15,7 +15,7 @@ class ApproachCharacteristic(Characteristic):
             'value': None
         })
 
-        self._value = 0
+        self._value = "matsu"
         self._updateValueCallback = None
 
     def onReadRequest(self, offset, callback):
