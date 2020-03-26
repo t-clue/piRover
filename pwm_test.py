@@ -79,6 +79,7 @@ if __name__ == '__main__':
         time.sleep(1)
 
     driver_a.set_direction(False)
+    driver_b.set_direction(False)
     for accle in accel_list:
         driver_a.set_accel(accle)
         driver_b.set_accel(accle)
@@ -91,19 +92,33 @@ if __name__ == '__main__':
     pi.set_mode(gpio_pwma, pigpio.OUTPUT)
     pi.set_mode(gpio_ain1, pigpio.OUTPUT)
     pi.set_mode(gpio_ain2, pigpio.OUTPUT)
+
+    pi.set_mode(gpio_pwmb, pigpio.OUTPUT)
+    pi.set_mode(gpio_bin1, pigpio.OUTPUT)
+    pi.set_mode(gpio_bin2, pigpio.OUTPUT)
+
     pi.set_mode(gpio_stanby, pigpio.OUTPUT)
 
     pi.write(gpio_stanby, 1)
     pi.write(gpio_ain1, 0)
     pi.write(gpio_ain2, 1)
 
+    pi.write(gpio_bin1, 0)
+    pi.write(gpio_bin2, 1)
+
     duty_list = [100000, 300000, 500000, 800000] 
     for duty in duty_list:
         pi.hardware_PWM(gpio_pwma, 50, duty)
+        pi.hardware_PWM(gpio_pwmb, 50, duty)
         time.sleep(1)	
 
     pi.set_mode(gpio_pwma, pigpio.INPUT)
     pi.set_mode(gpio_ain1, pigpio.INPUT)
     pi.set_mode(gpio_ain2, pigpio.INPUT)
+
+    pi.set_mode(gpio_pwmb, pigpio.INPUT)
+    pi.set_mode(gpio_bin1, pigpio.INPUT)
+    pi.set_mode(gpio_bin2, pigpio.INPUT)
+
     pi.set_mode(gpio_stanby, pigpio.INPUT)
     pi.stop()
