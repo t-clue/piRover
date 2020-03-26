@@ -12,7 +12,8 @@ class MotorDriver:
         self._IN2 = in2
         self._PWM = pwm
 
-        self.set_pin_mode
+        self.set_pin_mode()
+        self._set_pin_state()
 
     def set_pin_mode(self):
         self.pi.set_mode(self._IN1, pigpio.OUTPUT)
