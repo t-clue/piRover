@@ -39,8 +39,8 @@ class MotorDriver:
         self.pi.set_mode(self._PWM, pigpio.INPUT)
 
     def _set_pin_state(self):
-        self.pi.write(self._IN1, self._in1_value)
-        self.pi.write(self._IN2, self._in2_value)
+        self.pi.write(self._IN1, self._in1_value())
+        self.pi.write(self._IN2, self._in2_value())
 
     def _in1_value(self):
         if self._direction:
