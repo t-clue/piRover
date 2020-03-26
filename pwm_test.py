@@ -53,45 +53,47 @@ class MotorDriver:
         else:
             return 1
 
-gpio_pwma = 12
-gpio_ain1 = 7
-gpio_ain2 = 26 
-gpio_stanby = 8
 
-pi = pigpio.pi()
-pi.set_mode(gpio_stanby, pigpio.OUTPUT)
+if __name__ == '__main__':
 
-driver_a = MotorDriver(gpio_ain1, gpio_ain2, gpio_pwma)
-accel_list = [10, 40, 59, 99]
-for accle in accel_list:
-    driver_a.set_accel(accle)
-    time.sleep(1)
+    gpio_pwma = 12
+    gpio_ain1 = 7
+    gpio_ain2 = 26 
+    gpio_stanby = 8
 
-driver_a.set_direction(False)
-for accle in accel_list:
-    driver_a.set_accel(accle)
-    time.sleep(1)
+    pi = pigpio.pi()
+    pi.set_mode(gpio_stanby, pigpio.OUTPUT)
 
-driver_a.clean()
+    driver_a = MotorDriver(gpio_ain1, gpio_ain2, gpio_pwma)
+    accel_list = [10, 40, 59, 99]
+    for accle in accel_list:
+        driver_a.set_accel(accle)
+        time.sleep(1)
 
-pi = pigpio.pi()
-pi.set_mode(gpio_pwma, pigpio.OUTPUT)
-pi.set_mode(gpio_ain1, pigpio.OUTPUT)
-pi.set_mode(gpio_ain2, pigpio.OUTPUT)
-pi.set_mode(gpio_stanby, pigpio.OUTPUT)
+    driver_a.set_direction(False)
+    for accle in accel_list:
+        driver_a.set_accel(accle)
+        time.sleep(1)
 
-pi.write(gpio_stanby, 1)
-pi.write(gpio_ain1, 0)
-pi.write(gpio_ain2, 1)
+    driver_a.clean()
 
-duty_list = [100000, 300000, 500000, 800000] 
-for duty in duty_list:
-	pi.hardware_PWM(gpio_pwma, 50, duty)
-	time.sleep(1)	
+    pi = pigpio.pi()
+    pi.set_mode(gpio_pwma, pigpio.OUTPUT)
+    pi.set_mode(gpio_ain1, pigpio.OUTPUT)
+    pi.set_mode(gpio_ain2, pigpio.OUTPUT)
+    pi.set_mode(gpio_stanby, pigpio.OUTPUT)
 
-pi.set_mode(gpio_pwma, pigpio.INPUT)
-pi.set_mode(gpio_ain1, pigpio.INPUT)
-pi.set_mode(gpio_ain2, pigpio.INPUT)
-pi.set_mode(gpio_stanby, pigpio.INPUT)
-pi.stop()
+    pi.write(gpio_stanby, 1)
+    pi.write(gpio_ain1, 0)
+    pi.write(gpio_ain2, 1)
 
+    duty_list = [100000, 300000, 500000, 800000] 
+    for duty in duty_list:
+        pi.hardware_PWM(gpio_pwma, 50, duty)
+        time.sleep(1)	
+
+    pi.set_mode(gpio_pwma, pigpio.INPUT)
+    pi.set_mode(gpio_ain1, pigpio.INPUT)
+    pi.set_mode(gpio_ain2, pigpio.INPUT)
+    pi.set_mode(gpio_stanby, pigpio.INPUT)
+    pi.stop()
