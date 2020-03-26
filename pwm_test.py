@@ -39,6 +39,8 @@ class MotorDriver:
         self.pi.set_mode(self._IN2, pigpio.INPUT)
         self.pi.set_mode(self._PWM, pigpio.INPUT)
 
+        self.pi.stop()
+
     def _set_pin_state(self):
         self.pi.write(self._IN1, self._in1_value())
         self.pi.write(self._IN2, self._in2_value())
@@ -69,7 +71,7 @@ if __name__ == '__main__':
     gpio_stanby = 8
 
     pi = pigpio.pi()
-    pi.set_mode(gpio_stanby, pigpio.OUTPUT)
+    pi.set_mode(gpio_stanby, pigpio.OUTPUT) #TODO: stanbyPinをショートさせたら削除する
 
     driver_a = MotorDriver(gpio_ain1, gpio_ain2, gpio_pwma)
     driver_b = MotorDriver(gpio_bin1, gpio_bin2, gpio_pwmb)
@@ -89,37 +91,4 @@ if __name__ == '__main__':
     driver_a.clean()
     driver_b.clean()
 
-    pi = pigpio.pi()
-    pi.set_mode(gpio_pwma, pigpio.OUTPUT)
-    pi.set_mode(gpio_ain1, pigpio.OUTPUT)
-    pi.set_mode(gpio_ain2, pigpio.OUTPUT)
-
-    pi.set_mode(gpio_pwmb, pigpio.OUTPUT)
-    pi.set_mode(gpio_bin1, pigpio.OUTPUT)
-    pi.set_mode(gpio_bin2, pigpio.OUTPUT)
-
-    pi.set_mode(gpio_stanby, pigpio.OUTPUT)
-
-    pi.write(gpio_stanby, 1)
-    pi.write(gpio_ain1, 0)
-    pi.write(gpio_ain2, 1)
-
-    pi.write(gpio_bin1, 0)
-    pi.write(gpio_bin2, 1)
-
-    duty_list = [100000, 300000, 500000, 800000] 
-    for duty in duty_list:
-        pi.hardware_PWM(gpio_pwma, 50, duty)
-        pi.hardware_PWM(gpio_pwmb, 50, duty)
-        time.sleep(1)	
-
-    pi.set_mode(gpio_pwma, pigpio.INPUT)
-    pi.set_mode(gpio_ain1, pigpio.INPUT)
-    pi.set_mode(gpio_ain2, pigpio.INPUT)
-
-    pi.set_mode(gpio_pwmb, pigpio.INPUT)
-    pi.set_mode(gpio_bin1, pigpio.INPUT)
-    pi.set_mode(gpio_bin2, pigpio.INPUT)
-
-    pi.set_mode(gpio_stanby, pigpio.INPUT)
     pi.stop()
