@@ -3,7 +3,7 @@ import time
 
 gpio_pwma = 12
 gpio_ain1 = 7
-gpio_ain2 = 1
+gpio_ain2 = 26 
 gpio_stanby = 8
 
 pi = pigpio.pi()
@@ -16,7 +16,7 @@ pi.write(gpio_stanby, 1)
 pi.write(gpio_ain1, 0)
 pi.write(gpio_ain2, 1)
 
-pi.hardware_PWM(gpio_pin0, 2, 500000)
+pi.hardware_PWM(gpio_pwma, 2, 500000)
 
 time.sleep(5)
 
