@@ -63,8 +63,8 @@ if __name__ == '__main__':
     gpio_ain2 = 26
 
     gpio_pwmb = 13
-    gpio_bin1 = 5
-    gpio_bin2 = 6
+    gpio_bin1 = 6 
+    gpio_bin2 = 5 
 
     gpio_stanby = 8
 
