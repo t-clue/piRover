@@ -28,9 +28,10 @@ class MotorDriver:
     def set_accel(self, percentage):
         if type(percentage) is not int:
             TypeError("Type of percentage is bool")
-        if percentage < 0 or 100 =< percentage:
+        if percentage < 0 or 100 <= percentage:
             TypeError("Range of percentage is 0...100")
-        self.pi.hardware_PWM(self._PWM, percentage * 10 ** 4)
+        value = int(percentage * 10 ** 4)
+        self.pi.hardware_PWM(self._PWM, 50, value)
 
     def clean(self):
         self.pi.set_mode(self._IN1, pigpio.INPUT)
