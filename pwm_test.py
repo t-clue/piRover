@@ -59,24 +59,33 @@ if __name__ == '__main__':
 
     gpio_pwma = 12
     gpio_ain1 = 7
-    gpio_ain2 = 26 
+    gpio_ain2 = 26
+
+    gpio_pwmb = 13
+    gpio_bin1 = 5
+    gpio_bin2 = 6
+
     gpio_stanby = 8
 
     pi = pigpio.pi()
     pi.set_mode(gpio_stanby, pigpio.OUTPUT)
 
     driver_a = MotorDriver(gpio_ain1, gpio_ain2, gpio_pwma)
+    driver_b = MotorDriver(gpio_bin1, gpio_bin2, gpio_pwmb)
     accel_list = [10, 40, 59, 99]
     for accle in accel_list:
         driver_a.set_accel(accle)
+        driver_b.set_accel(accle)
         time.sleep(1)
 
     driver_a.set_direction(False)
     for accle in accel_list:
         driver_a.set_accel(accle)
+        driver_b.set_accel(accle)
         time.sleep(1)
 
     driver_a.clean()
+    driver_b.clean()
 
     pi = pigpio.pi()
     pi.set_mode(gpio_pwma, pigpio.OUTPUT)
