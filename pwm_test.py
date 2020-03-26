@@ -16,9 +16,10 @@ pi.write(gpio_stanby, 1)
 pi.write(gpio_ain1, 0)
 pi.write(gpio_ain2, 1)
 
-pi.hardware_PWM(gpio_pwma, 2, 500000)
-
-time.sleep(5)
+duty_list = [100000, 300000, 500000, 800000] 
+for duty in duty_list:
+	pi.hardware_PWM(gpio_pwma, 50, duty)
+	time.sleep(1)	
 
 pi.set_mode(gpio_pwma, pigpio.INPUT)
 pi.set_mode(gpio_ain1, pigpio.INPUT)
