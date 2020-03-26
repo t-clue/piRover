@@ -71,7 +71,7 @@ if __name__ == '__main__':
     gpio_stanby = 8
 
     pi = pigpio.pi()
-    pi.set_mode(gpio_stanby, pigpio.OUTPUT) #TODO: stanbyPinをショートさせたら削除する
+    pi.set_mode(gpio_stanby, pigpio.OUTPUT) #TODO: short stanbyPin and delete these script
 
     driver_a = MotorDriver(gpio_ain1, gpio_ain2, gpio_pwma)
     driver_b = MotorDriver(gpio_bin1, gpio_bin2, gpio_pwmb)
