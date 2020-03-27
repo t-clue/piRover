@@ -41,7 +41,7 @@ class ApproachCharacteristic(Characteristic):
         if self._updateValueCallback:
             print('EchoCharacteristic - onWriteRequest: notifying');
             self._updateValueCallback(self._value)
-            self.driver_a.set_accel(data)
+            self.driver_a.set_accel(int(data))
 
         
         callback(Characteristic.RESULT_SUCCESS)
