@@ -11,7 +11,7 @@ class ApproachCharacteristic(Characteristic):
     def __init__(self):
         Characteristic.__init__(self, {
             'uuid': APPROACH_CHARACTERISTIC_UUID,
-            'properties': ['read', 'notify'],
+            'properties': ['read', 'write', 'notify'],
             'value': None
         })
 
@@ -19,17 +19,25 @@ class ApproachCharacteristic(Characteristic):
         self._updateValueCallback = None
 
     def onReadRequest(self, offset, callback):
-        print()
+        print('onReadRequest')
         callback(Characteristic.RESULT_SUCCESS, self._value)
+
+    def onWriteRequest(self, data, offset, withoutResponse, callback):
+        self._value = data
+        print('EchoCharacteristic - %s - onWriteRequest: value = %s' % (self['uuid'], [hex(c) for c in self._value]))
+
+        if self._updateValueCallback:
+            print('EchoCharacteristic - onWriteRequest: notifying');
+            self._updateValueCallback(self._value)
+        
+        callback(Characteristic.RESULT_SUCCESS)
 
     def onSubscribe(self, maxValueSize, updateValueCallback):
         print('ApproachCharacteristic - onSubscribe')
-
         self._updateValueCallback = updateValueCallback
 
     def onUnsubscribe(self):
         print('ApproachCharacteristic - onUnsubscribe')
-
         self._updateValueCallback = None
 
 
@@ -74,15 +82,17 @@ def task():
     global counter
     counter += 1
     approachCharacteristic._value = counter
+
     if approachCharacteristic._updateValueCallback:
 
         print('Sending notification with value : ' + str(approachCharacteristic._value))
 
         notificationBytes = str(approachCharacteristic._value).encode()
         approachCharacteristic._updateValueCallback(notificationBytes)
-
+        print(notificationBytes)
+        print(approachCharacteristic._value)
 
 while True:
-    task()
+#    task()
     time.sleep(1)
 
