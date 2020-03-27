@@ -1,4 +1,5 @@
 from pybleno import *
+from MotorDriver import *
 
 bleno = Bleno()
 
@@ -18,6 +19,17 @@ class ApproachCharacteristic(Characteristic):
         self._value = "matsu"
         self._updateValueCallback = None
 
+        gpio_pwma = 12
+        gpio_ain1 = 7
+        gpio_ain2 = 26
+
+        gpio_pwmb = 13
+        gpio_bin1 = 6 
+        gpio_bin2 = 5 
+
+        self.driver_a = MotorDriver(gpio_ain1, gpio_ain2, gpio_pwma)
+        self.driver_b = MotorDriver(gpio_bin1, gpio_bin2, gpio_pwmb)
+
     def onReadRequest(self, offset, callback):
         print('onReadRequest')
         callback(Characteristic.RESULT_SUCCESS, self._value)
@@ -29,6 +41,8 @@ class ApproachCharacteristic(Characteristic):
         if self._updateValueCallback:
             print('EchoCharacteristic - onWriteRequest: notifying');
             self._updateValueCallback(self._value)
+            self.driver_a.set_accel(data)
+
         
         callback(Characteristic.RESULT_SUCCESS)
 
