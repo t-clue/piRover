@@ -36,7 +36,7 @@ class ApproachCharacteristicLeft(Characteristic):
         if self._updateValueCallback:
             print('EchoCharacteristic - onWriteRequest: notifying');
             self._updateValueCallback(self._value)
-            self.driver_a.set_accel(data)
+            self.driver_a.set_accel(int(data))
         
         callback(Characteristic.RESULT_SUCCESS)
 
@@ -52,7 +52,7 @@ class ApproachCharacteristicRight(Characteristic):
 
     def __init__(self):
         Characteristic.__init__(self, {
-            'uuid': APPROACH_CHARACTERISTIC_LEFT_UUID,
+            'uuid': APPROACH_CHARACTERISTIC_RIGHT_UUID,
             'properties': ['read', 'write', 'notify'],
             'value': None
         })
