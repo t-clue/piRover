@@ -68,11 +68,6 @@ if __name__ == '__main__':
     gpio_bin1 = 6 
     gpio_bin2 = 5 
 
-    gpio_stanby = 8
-
-    pi = pigpio.pi()
-    pi.set_mode(gpio_stanby, pigpio.OUTPUT) #TODO: short stanbyPin and delete these script
-
     driver_a = MotorDriver(gpio_ain1, gpio_ain2, gpio_pwma)
     driver_b = MotorDriver(gpio_bin1, gpio_bin2, gpio_pwmb)
     accel_list = [10, 40, 59, 99]
@@ -90,5 +85,3 @@ if __name__ == '__main__':
 
     driver_a.clean()
     driver_b.clean()
-
-    pi.stop()
