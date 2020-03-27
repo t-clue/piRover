@@ -23,8 +23,10 @@ class MotorDriver:
     def set_direction(self, is_cw):
         if type(is_cw) is not bool:
             TypeError("Type of is_cw is bool")
-        self._direction = is_cw
-        self._set_pin_state()
+
+        if self._direction is not is_cw:
+            self._direction = is_cw
+            self._set_pin_state()
 
     def set_accel(self, percentage):
         if type(percentage) is not int:
