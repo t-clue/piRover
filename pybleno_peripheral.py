@@ -37,11 +37,11 @@ class ApproachCharacteristicLeft(Characteristic):
             print('EchoCharacteristic - onWriteRequest: notifying');
             self._updateValueCallback(self._value)
 
-            if data > 0:
+            if int(data) > 0:
                 self.driver_a.set_direction(True)
             else:
                 self.driver_a.set_direction(False)
-            self.driver_a.set_accel(int(abs(data)))
+            self.driver_a.set_accel(abs(int(data)))
         
         callback(Characteristic.RESULT_SUCCESS)
 
@@ -83,11 +83,11 @@ class ApproachCharacteristicRight(Characteristic):
             print('EchoCharacteristic - onWriteRequest: notifying');
             self._updateValueCallback(self._value)
 
-            if data > 0:
+            if int(data) > 0:
                 self.driver_b.set_direction(True)
             else:
                 self.driver_b.set_direction(False)
-            self.driver_b.set_accel(int(abs(data)))
+            self.driver_b.set_accel(abs(int(data)))
         
         callback(Characteristic.RESULT_SUCCESS)
 
