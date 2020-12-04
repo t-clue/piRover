@@ -64,19 +64,16 @@ class ApproachCharacteristicLeft(ApproachCharacteristic):
         data = data.decode(encoding='utf-8')
         data = data.split(',')
 
-        self.write2driver(data[0], self.driver_a)
-        self.write2driver(data[1], self.driver_b)
-        self.driver.set_degree(int(data[2]))
+        self.write2driver(int(data[0]), self.driver_a)
+        self.write2driver(int(data[1]), self.driver_b)
+        self.gimbalDriver.set_degree(int(data[2]))
 
-    def write2driver(self, data, driver: ServoDriver):
-        if int(data) > 0:
-            self.driver.set_direction(True)
+    def write2driver(self, value, driver):
+        if value > 0:
+            driver.set_direction(True)
         else:
-            self.driver.set_direction(False)
-        self.driver.set_accel(abs(int(data[0])))
-
-
-
+            driver.set_direction(False)
+        driver.set_accel(abs(value))
 
 class ApproachCharacteristicRight(ApproachCharacteristic):
     def __init__(self):
