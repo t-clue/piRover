@@ -64,19 +64,18 @@ class ApproachCharacteristicLeft(ApproachCharacteristic):
         data = data.decode(encoding='utf-8')
         data = data.split(',')
 
-        if int(data[0]) > 0:
-            self.driver_a.set_direction(True)
-        else:
-            self.driver_a.set_direction(False)
-        self.driver_a.set_accel(abs(int(data[0])))
-
-        if int(data[1]) > 0:
-            self.driver_a.set_direction(True)
-        else:
-            self.driver_a.set_direction(False)
-        self.driver_a.set_accel(abs(int(data[1])))
-
+        self.write2driver(data[0], self.driver_a)
+        self.write2driver(data[1], self.driver_b)
         self.driver.set_degree(int(data[2]))
+
+    def write2driver(self, data, driver: ServoDriver):
+        if int(data) > 0:
+            self.driver.set_direction(True)
+        else:
+            self.driver.set_direction(False)
+        self.driver.set_accel(abs(int(data[0])))
+
+
 
 
 class ApproachCharacteristicRight(ApproachCharacteristic):
