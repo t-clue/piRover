@@ -53,13 +53,31 @@ class ApproachCharacteristicLeft(ApproachCharacteristic):
         gpio_ain1 = 7
         gpio_ain2 = 26
         self.driver_a = MotorDriver(gpio_ain1, gpio_ain2, gpio_pwma)
+        gpio_pwmb = 13
+        gpio_bin1 = 6
+        gpio_bin2 = 5
+        self.driver_b = MotorDriver(gpio_bin1, gpio_bin2, gpio_pwmb)
+        gpio_pin = 19
+        self.gimbalDriver = ServoDriver(gpio_pin)
 
     def didGetData(self, data):
-        if int(data) > 0:
+        data = data.decode(encoding='utf-8')
+        data = data.split(',')
+
+        if int(data[0]) > 0:
             self.driver_a.set_direction(True)
         else:
             self.driver_a.set_direction(False)
-        self.driver_a.set_accel(abs(int(data)))
+        self.driver_a.set_accel(abs(int(data[0])))
+
+        if int(data[1]) > 0:
+            self.driver_a.set_direction(True)
+        else:
+            self.driver_a.set_direction(False)
+        self.driver_a.set_accel(abs(int(data[1])))
+
+        self.driver.set_degree(int(data[2]))
+
 
 class ApproachCharacteristicRight(ApproachCharacteristic):
     def __init__(self):
@@ -86,7 +104,7 @@ class ApproachCharacteristicGimbal(ApproachCharacteristic):
         self.driver = ServoDriver(gpio_pin)
 
     def didGetData(self, data):
-        self.driver.set_degree(data)
+        self.driver.set_degree(int(data))
 
 def onStateChange(state):
     print('on -> stateChange: ' + state)
@@ -99,8 +117,6 @@ def onStateChange(state):
 bleno.on('stateChange', onStateChange)
 
 approachCharacteristicLeft = ApproachCharacteristicLeft()
-approachCharacteristicRight = ApproachCharacteristicRight()
-approachCharacteristicGimbal = ApproachCharacteristicGimbal()
 
 def onAdvertisingStart(error):
     print('on -> advertisingStart: ' + ('error ' + error if error else 'success'))
@@ -111,8 +127,6 @@ def onAdvertisingStart(error):
                 'uuid': APPROACH_SERVICE_UUID,
                 'characteristics': [
                     approachCharacteristicLeft,
-                    approachCharacteristicRight,
-                    approachCharacteristicGimbal
                 ]
             })
         ])
