@@ -59,6 +59,8 @@ class ApproachCharacteristicLeft(ApproachCharacteristic):
         self.driver_b = MotorDriver(gpio_bin1, gpio_bin2, gpio_pwmb)
         gpio_pin = 19
         self.gimbalDriver = ServoDriver(gpio_pin)
+        
+        self.gimbalDriverValue = 0
 
     def didGetData(self, data):
         data = data.decode(encoding='utf-8')
@@ -66,8 +68,12 @@ class ApproachCharacteristicLeft(ApproachCharacteristic):
 
         self.write2driver(int(data[0]), self.driver_a)
         self.write2driver(int(data[1]), self.driver_b)
-        self.gimbalDriver.set_degree(int(data[2]))
-
+        
+        gimbalNewValue = int(data[2])
+        if self.gimbalDriverValue != gimbalNewValue:
+            self.driver.set_degree(gimbalNewValue)
+            self.gimbalDriverValue = gimbalNewValue
+            
     def write2driver(self, value, driver):
         if value > 0:
             driver.set_direction(True)
