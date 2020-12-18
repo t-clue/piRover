@@ -71,7 +71,7 @@ class ApproachCharacteristicLeft(ApproachCharacteristic):
         
         gimbalNewValue = int(data[2])
         if self.gimbalDriverValue != gimbalNewValue:
-            self.driver.set_degree(gimbalNewValue)
+            self.gimbalDriver.set_degree(gimbalNewValue)
             self.gimbalDriverValue = gimbalNewValue
             
     def write2driver(self, value, driver):
