@@ -15,9 +15,8 @@ class ServoDriver:
     def set_degree(self, degree):
         if not(0 <= degree <= 180):
             TypeError("Range of degree is 0...180")
-        degree = (degree / 180 * 1.9 + 0.5) / 20 * 100 # servo data sheet https://akizukidenshi.com/download/ds/towerpro/SG90_a.pdf
-        value = int(degree * 10 ** 4)
-        self.pi.hardware_PWM(self._pin, 50, value)
+        value = int((degree - 90) / 90 * 500 + 1500)
+        self.pi.set_servo_pulsewidth(self._pin, value)
 
     def clean(self):
         self.pi.set_mode(self._pin, pigpio.INPUT)
@@ -26,7 +25,7 @@ class ServoDriver:
 
 if __name__ == '__main__':
 
-    gpio_pwm = 19
+    gpio_pwm = 17
 
     driver = ServoDriver(gpio_pwm)
     degree_list = [0, 60, 90, 120, 180]
