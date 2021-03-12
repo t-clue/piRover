@@ -57,7 +57,7 @@ class ApproachCharacteristicLeft(ApproachCharacteristic):
         gpio_bin1 = 6
         gpio_bin2 = 5
         self.driver_b = MotorDriver(gpio_bin1, gpio_bin2, gpio_pwmb)
-        gpio_pin = 19
+        gpio_pin = 17
         self.gimbalDriver = ServoDriver(gpio_pin)
         
         self.gimbalDriverValue = 0
