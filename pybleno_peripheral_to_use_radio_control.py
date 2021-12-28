@@ -5,6 +5,9 @@ from ServoDriver import *
 bleno = Bleno()
 
 APPROACH_SERVICE_UUID = '5DBD7BF8-0539-4CA0-9534-8738123D9DBC'
+APPROACH_CHARACTERISTIC_LEFT_UUID = '18A19BD2-C200-4761-BE91-95A48CC30B6A'
+APPROACH_CHARACTERISTIC_RIGHT_UUID = '1849B1F6-A1A3-47F0-BEF2-5EEA1FF18640'
+APPROACH_CHARACTERISTIC_GIMBAL_UUID = '572E7DBE-308F-11EB-ADC1-0242AC120002'
 
 class ApproachCharacteristic(Characteristic):
     def __init__(self, uuid, name):
@@ -50,6 +53,7 @@ class ApproachCharacteristicGimbal(ApproachCharacteristic):
         self.driver = ServoDriver(gpio_pin)
 
     def didGetData(self, data):
+        print("data: " + str(int(data)))
         self.driver.set_degree(int(data))
 
 def onStateChange(state):
@@ -70,7 +74,7 @@ def onAdvertisingStart(error):
     if not error:
         bleno.setServices([
             BlenoPrimaryService({
-                'uuid': APPROACH_SERVICE_UUID,
+                'uuid': APPROACH_CHARACTERISTIC_GIMBAL_UUID,
                 'characteristics': [
                     approachCharacteristicGimbal,
                 ]
