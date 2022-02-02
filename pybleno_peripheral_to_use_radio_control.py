@@ -55,7 +55,7 @@ class ApproachCharacteristicGimbal(ApproachCharacteristic):
 
     def didGetData(self, data):
         print("data: " + str(int(data)))
-        self.driver.set_degree_with_velocity(int(data), self.velocity)
+        self.driver.set_degree_with_velocity(int(data), self.velocity, 300)
 
 def onStateChange(state):
     print('on -> stateChange: ' + state)
