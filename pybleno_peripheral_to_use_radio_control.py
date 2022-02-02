@@ -46,15 +46,16 @@ class ApproachCharacteristic(Characteristic):
         return
 
 class ApproachCharacteristicGimbal(ApproachCharacteristic):
-    def __init__(self):
+    def __init__(self, velocity):
         super().__init__(APPROACH_CHARACTERISTIC_GIMBAL_UUID, "ApproachCharacteristicGimbal")
 
         gpio_pin = 18
         self.driver = ServoDriver(gpio_pin)
+        self.velocity = velocity
 
     def didGetData(self, data):
         print("data: " + str(int(data)))
-        self.driver.set_degree(int(data))
+        self.driver.set_degree_with_velocity(int(data), self.velocity)
 
 def onStateChange(state):
     print('on -> stateChange: ' + state)
@@ -66,7 +67,7 @@ def onStateChange(state):
 
 bleno.on('stateChange', onStateChange)
 
-approachCharacteristicGimbal = ApproachCharacteristicGimbal()
+approachCharacteristicGimbal = ApproachCharacteristicGimbal(100)
 
 def onAdvertisingStart(error):
     print('on -> advertisingStart: ' + ('error ' + error if error else 'success'))
